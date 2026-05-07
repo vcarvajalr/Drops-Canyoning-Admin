@@ -1,24 +1,27 @@
 # Backend - Drops Canyoning Admin
 
-Este es el backend desarrollado en Python Django para el sistema de administración de reservas para Drops Canyoning.
+Django REST backend for the Drops reservation admin system.
 
-### Tecnologías usadas:
-- Django REST framework
-- MySQL
-- Autenticación con JWT
-- Integración con la API de PayPal
+## Features
+- JWT authentication
+- User, customer, trip, reservation, and payment CRUD APIs
+- PayPal order creation endpoint and webhook processing
+- Swagger/OpenAPI docs
+- Seed command for demo data
 
-### Pasos iniciales:
-1. Instalar dependencias:
-   ```sh
-   pip install -r requirements.txt
-   ```
-2. Configurar las variables de entorno para conectar con la base de datos.
-3. Migrar las bases de datos:
-   ```sh
-   python manage.py migrate
-   ```
-4. Ejecutar el servidor de desarrollo:
-   ```sh
-   python manage.py runserver
-   ```
+## Setup
+```bash
+cd /home/runner/work/Drops-Canyoning-Admin/Drops-Canyoning-Admin/backend
+python3 -m pip install -r requirements.txt
+cp .env.example .env
+python3 manage.py migrate
+python3 manage.py seed_data
+python3 manage.py runserver
+```
+
+## Useful endpoints
+- `POST /api/auth/token/`
+- `GET /api/auth/me/`
+- `GET /api/docs/`
+- `POST /api/payments/create-paypal-order/`
+- `POST /api/paypal/webhook/`
