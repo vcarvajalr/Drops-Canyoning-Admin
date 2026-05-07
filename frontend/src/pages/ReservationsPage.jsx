@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import api from '../api/client'
 
@@ -19,7 +19,7 @@ export default function ReservationsPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       const [reservationsResponse, customersResponse, tripsResponse] = await Promise.all([
         api.get('/api/reservations/'),
@@ -39,11 +39,11 @@ export default function ReservationsPage() {
     } catch {
       setError('Could not load reservations data.')
     }
-  }
+  }, [form.customer_id])
 
   useEffect(() => {
-    loadData()
-  }, [])
+    void loadData()
+  }, [loadData])
 
   const handleChange = (event) => {
     setForm((current) => ({ ...current, [event.target.name]: event.target.value }))

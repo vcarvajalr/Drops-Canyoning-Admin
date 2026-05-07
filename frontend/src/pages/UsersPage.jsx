@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import api from '../api/client'
 
@@ -19,18 +19,18 @@ export default function UsersPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 
-  const loadUsers = async () => {
+  const loadUsers = useCallback(async () => {
     try {
       const response = await api.get('/api/users/')
       setUsers(response.data)
     } catch {
       setError('Could not load users.')
     }
-  }
+  }, [])
 
   useEffect(() => {
-    loadUsers()
-  }, [])
+    void loadUsers()
+  }, [loadUsers])
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target

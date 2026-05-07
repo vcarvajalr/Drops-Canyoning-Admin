@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import api from '../api/client'
 
@@ -22,18 +22,18 @@ export default function TripsPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 
-  const loadTrips = async () => {
+  const loadTrips = useCallback(async () => {
     try {
       const response = await api.get('/api/trips/')
       setTrips(response.data)
     } catch {
       setError('Could not load trips.')
     }
-  }
+  }, [])
 
   useEffect(() => {
-    loadTrips()
-  }, [])
+    void loadTrips()
+  }, [loadTrips])
 
   const sortedTrips = useMemo(() => [...trips].sort((a, b) => a.scheduled_at.localeCompare(b.scheduled_at)), [trips])
 
