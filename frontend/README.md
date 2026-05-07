@@ -1,22 +1,24 @@
 # Frontend - Drops Canyoning Admin
 
-Este es el frontend desarrollado en React para el sistema de administración de reservas.
+React/Vite admin frontend for operating canyoning trips and reservations.
 
-### Tecnologías usadas:
-- React
-- Tailwind CSS
-- React Router
-- Axios
+## Features
+- JWT login flow
+- Dashboard overview
+- Trip CRUD
+- Reservation CRUD with payment status visibility
+- Staff user management for admins/managers
 
-### Instrucciones para correr el proyecto:
-1. Instalar dependencias:
-   ```sh
-   npm install
-   ```
-2. Correr el servidor de desarrollo:
-   ```sh
-   npm start
-   ```
+## Setup
+```bash
+cd /home/runner/work/Drops-Canyoning-Admin/Drops-Canyoning-Admin/frontend
+npm install
+cp .env.example .env
+npm run dev
+```
 
-### Notas:
-Se recomienda usar Node.js versión 16 o superior.
+## Commands
+- `npm run dev`
+- `npm run lint`
+- `npm run test`
+- `npm run build`

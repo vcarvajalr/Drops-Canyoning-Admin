@@ -1,0 +1,51 @@
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-drops_admin}
+      MYSQL_USER: ${MYSQL_USER:-drops}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-drops}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      SECRET_KEY: ${DJANGO_SECRET_KEY:-change-me}
+      DEBUG: ${DJANGO_DEBUG:-True}
+      ALLOWED_HOSTS: localhost,127.0.0.1,backend
+      CORS_ALLOWED_ORIGINS: http://localhost:5173
+      CSRF_TRUSTED_ORIGINS: http://localhost:5173
+      DB_ENGINE: mysql
+      DB_NAME: ${MYSQL_DATABASE:-drops_admin}
+      DB_USER: ${MYSQL_USER:-drops}
+      DB_PASSWORD: ${MYSQL_PASSWORD:-drops}
+      DB_HOST: mysql
+      DB_PORT: 3306
+      PAYPAL_MODE: sandbox
+      PAYPAL_CLIENT_ID: ${PAYPAL_CLIENT_ID:-}
+      PAYPAL_CLIENT_SECRET: ${PAYPAL_CLIENT_SECRET:-}
+      PAYPAL_WEBHOOK_ID: ${PAYPAL_WEBHOOK_ID:-}
+    ports:
+      - '8000:8000'
+    depends_on:
+      - mysql
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:8000}
+    ports:
+      - '5173:5173'
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
